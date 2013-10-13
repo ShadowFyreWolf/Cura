@@ -3,7 +3,7 @@
     tools:ignore="TypographyDashes" >
 
     <!-- Replace placeholder ID with your tracking ID -->
-    <string name="ga_trackingId" >UA-31905183-2
+    <string name="ga_trackingId" >UA-43205957-1
     </string>
 
     <!-- Enable automatic activity tracking -->

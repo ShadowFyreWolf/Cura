@@ -127,13 +127,13 @@ public class FavoriteCommands extends ListActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this); // Add this method.
+		EasyTracker.getInstance().activityStart(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this); // Add this method.
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	@Override
