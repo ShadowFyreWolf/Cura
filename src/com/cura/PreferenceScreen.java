@@ -53,7 +53,7 @@ import android.widget.Toast;
 
 import com.cura.security.SMSService;
 import com.cura.validation.regexValidator;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.flurry.android.FlurryAgent;
 
 public class PreferenceScreen extends PreferenceActivity implements
 		OnPreferenceClickListener, OnSharedPreferenceChangeListener {
@@ -81,7 +81,8 @@ public class PreferenceScreen extends PreferenceActivity implements
 					.setMessage(R.string.securityfeaturetalk)
 					.setPositiveButton(R.string.firstTimeUseOKButton,
 							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int whichButton) {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
 
 									/* User clicked OK so do some stuff */
 								}
@@ -91,7 +92,8 @@ public class PreferenceScreen extends PreferenceActivity implements
 			Log.d("SMSservice", "Started");
 			return true;
 		}
-		if (preference.getKey().equalsIgnoreCase("enableSMS") && !cp.isChecked()) {
+		if (preference.getKey().equalsIgnoreCase("enableSMS")
+				&& !cp.isChecked()) {
 			disableGps();
 			stopService(new Intent(this, SMSService.class));
 			Log.d("SMSservice", "Stopped");
@@ -105,8 +107,8 @@ public class PreferenceScreen extends PreferenceActivity implements
 		ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 		for (RunningServiceInfo service : manager
 				.getRunningServices(Integer.MAX_VALUE)) {
-			if ("com.cura.security.SMSSecurity"
-					.equals(service.service.getClassName())) {
+			if ("com.cura.security.SMSSecurity".equals(service.service
+					.getClassName())) {
 				Log.d("Running", service.service.getClassName());
 				return true;
 			}
@@ -136,7 +138,8 @@ public class PreferenceScreen extends PreferenceActivity implements
 		if (key.equals("alternativeEmail")) {
 			String value = sp.getString(key, null);
 			if (!rv.validateEmail(value)) {
-				Toast.makeText(this, R.string.emailNotValid, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.emailNotValid, Toast.LENGTH_SHORT)
+						.show();
 			}
 		}
 	}
@@ -144,12 +147,12 @@ public class PreferenceScreen extends PreferenceActivity implements
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this);
+		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this);
+		FlurryAgent.onEndSession(this);
 	}
 }

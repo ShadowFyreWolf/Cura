@@ -72,7 +72,7 @@ import android.widget.Toast;
 import com.cura.LoginScreenActivity;
 import com.cura.R;
 import com.cura.User;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.flurry.android.FlurryAgent;
 
 public class NmapActivity extends Activity {
 
@@ -783,14 +783,13 @@ public class NmapActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this);
-	}
+		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
 		finish();
-		EasyTracker.getInstance().activityStop(this);
+		FlurryAgent.onEndSession(this);
 	}
 
 	@Override

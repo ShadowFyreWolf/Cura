@@ -62,7 +62,7 @@ import com.cura.Terminal.TerminalActivity;
 import com.cura.nmap.NmapActivity;
 import com.cura.syslog.SysLogActivity;
 import com.cura.sysmonitor.SysMonitorActivity;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.flurry.android.FlurryAgent;
 
 public class CuraActivity extends TabActivity implements OnClickListener,
 		OnTouchListener {
@@ -316,13 +316,13 @@ public class CuraActivity extends TabActivity implements OnClickListener,
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this);
+		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this);
+		FlurryAgent.onEndSession(this);
 	}
 
 	@Override

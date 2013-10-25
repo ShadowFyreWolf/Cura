@@ -51,14 +51,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cura.CuraActivity;
 import com.cura.LoginScreenActivity;
 import com.cura.R;
 import com.cura.ScreenCapture;
 import com.cura.User;
 import com.cura.Connection.CommunicationInterface;
 import com.cura.Connection.ConnectionService;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.flurry.android.FlurryAgent;
 
 public class ServerStatsActivity extends Activity {
 
@@ -69,9 +68,9 @@ public class ServerStatsActivity extends Activity {
 	private String loader_message = "";
 
 	private String hostnameResult, listeningIPResult, kernelversionResult,
-			uptimeResult, lastbootResult, currentusersResult, nameOfUsersResult,
-			loadaveragesResult, memoryoutputResult, filesystemsoutputResult,
-			processstatusoutputResult;
+			uptimeResult, lastbootResult, currentusersResult,
+			nameOfUsersResult, loadaveragesResult, memoryoutputResult,
+			filesystemsoutputResult, processstatusoutputResult;
 	private String[] processIDs;
 	private String processIDsingular;
 	private String totalMem, freeMem, usedMem;
@@ -102,8 +101,8 @@ public class ServerStatsActivity extends Activity {
 
 	public void doBindService() {
 		Intent i = new Intent(this, ConnectionService.class);
-		getApplicationContext()
-				.bindService(i, connection, Context.BIND_AUTO_CREATE);
+		getApplicationContext().bindService(i, connection,
+				Context.BIND_AUTO_CREATE);
 	}
 
 	public synchronized String sendAndReceive(String command) {
@@ -134,13 +133,15 @@ public class ServerStatsActivity extends Activity {
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						ServerStatsActivity.this);
 				builder.setTitle("Pick a process");
-				builder.setItems(processIDs, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						sendAndReceive("kill `pidof " + processIDs[item] + "`");
-						getStats();
-					}
+				builder.setItems(processIDs,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int item) {
+								sendAndReceive("kill `pidof "
+										+ processIDs[item] + "`");
+								getStats();
+							}
 
-				});
+						});
 				builder.show();
 			}
 		});
@@ -171,13 +172,14 @@ public class ServerStatsActivity extends Activity {
 					try {
 						ScreenCapture sc = new ScreenCapture();
 						Date date = new Date();
-						String dateString = date.getMonth() + "_" + date.getDay() + "_"
-								+ date.getHours() + "_" + date.getMinutes() + "_"
-								+ date.getSeconds();
+						String dateString = date.getMonth() + "_"
+								+ date.getDay() + "_" + date.getHours() + "_"
+								+ date.getMinutes() + "_" + date.getSeconds();
 						title += dateString;
 						sc.capture(
-								getWindow().getDecorView().findViewById(android.R.id.content),
-								title, getContentResolver());
+								getWindow().getDecorView().findViewById(
+										android.R.id.content), title,
+								getContentResolver());
 					} catch (Exception ex) {
 						return false;
 					}
@@ -187,8 +189,11 @@ public class ServerStatsActivity extends Activity {
 				@Override
 				protected void onPostExecute(Boolean result) {
 					if (result)
-						Toast.makeText(ServerStatsActivity.this,
-								title + " " + getString(R.string.screenCaptureSaved),
+						Toast.makeText(
+								ServerStatsActivity.this,
+								title
+										+ " "
+										+ getString(R.string.screenCaptureSaved),
 								Toast.LENGTH_LONG).show();
 					super.onPostExecute(result);
 				}
@@ -296,11 +301,14 @@ public class ServerStatsActivity extends Activity {
 		String data[] = s.split("--");
 		try {
 			totalMem = String.format("%.2f GB",
-					Double.parseDouble(data[4].replaceAll("\\s", "")) / (1024 * 1024));
+					Double.parseDouble(data[4].replaceAll("\\s", ""))
+							/ (1024 * 1024));
 			usedMem = String.format("%.2f GB",
-					Double.parseDouble(data[5].replaceAll("\\s", "")) / (1024 * 1024));
+					Double.parseDouble(data[5].replaceAll("\\s", ""))
+							/ (1024 * 1024));
 			freeMem = String.format("%.2f GB",
-					Double.parseDouble(data[6].replaceAll("\\s", "")) / (1024 * 1024));
+					Double.parseDouble(data[6].replaceAll("\\s", ""))
+							/ (1024 * 1024));
 			TextView tv = (TextView) findViewById(R.id.totalMem);
 			tv.setText("Total: " + totalMem);
 			tv = (TextView) findViewById(R.id.usedMem);
@@ -309,7 +317,8 @@ public class ServerStatsActivity extends Activity {
 			tv.setText("Free: " + freeMem);
 			LinearLayout memoryPieChartView = (LinearLayout) (findViewById(R.id.memoryPieChartView));
 			memoryPieChartView.removeAllViews();
-			memoryPieChartView.addView(new MemoryStatsPieChart().execute(this, data),
+			memoryPieChartView.addView(
+					new MemoryStatsPieChart().execute(this, data),
 					new LayoutParams(300, 300));
 			Log.d("account id", "wselet pie");
 		} catch (Exception e) {
@@ -325,29 +334,38 @@ public class ServerStatsActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-			new AlertDialog.Builder(this).setTitle("Logout Confirmation")
+			new AlertDialog.Builder(this)
+					.setTitle("Logout Confirmation")
 					.setMessage(R.string.logoutConfirmationDialog)
-					.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
 
-						public void onClick(DialogInterface dialog, int which) {
-							try {
-								Log.d("Connection", "connection closed");
-							} catch (Exception e) {
-								Log.d("Connection", e.toString());
-							}
-							Intent closeAllActivities = new Intent(ServerStatsActivity.this,
-									LoginScreenActivity.class);
-							closeAllActivities.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							ServerStatsActivity.this.startActivity(closeAllActivities);
+								public void onClick(DialogInterface dialog,
+										int which) {
+									try {
+										Log.d("Connection", "connection closed");
+									} catch (Exception e) {
+										Log.d("Connection", e.toString());
+									}
+									Intent closeAllActivities = new Intent(
+											ServerStatsActivity.this,
+											LoginScreenActivity.class);
+									closeAllActivities
+											.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									ServerStatsActivity.this
+											.startActivity(closeAllActivities);
 
-							mNotificationManager.cancelAll();
-						}
-					}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+									mNotificationManager.cancelAll();
+								}
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
 
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					}).show();
+								public void onClick(DialogInterface dialog,
+										int which) {
+									dialog.dismiss();
+								}
+							}).show();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
@@ -355,12 +373,12 @@ public class ServerStatsActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this);
+		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this);
+		FlurryAgent.onEndSession(this);
 	}
 }

@@ -60,7 +60,7 @@ import com.cura.R;
 import com.cura.User;
 import com.cura.Connection.CommunicationInterface;
 import com.cura.Connection.ConnectionService;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.flurry.android.FlurryAgent;
 
 public class SysLogActivity extends Activity implements
 		android.view.View.OnClickListener {
@@ -106,8 +106,8 @@ public class SysLogActivity extends Activity implements
 
 	public void doBindService() {
 		Intent i = new Intent(this, ConnectionService.class);
-		getApplicationContext()
-				.bindService(i, connection, Context.BIND_AUTO_CREATE);
+		getApplicationContext().bindService(i, connection,
+				Context.BIND_AUTO_CREATE);
 	}
 
 	@Override
@@ -165,15 +165,13 @@ public class SysLogActivity extends Activity implements
 		position = (Spinner) findViewById(R.id.HeadTailSpinner);
 		ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, menu1);
-		adapter1
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		position.setAdapter(adapter1);
 
 		logFile = (Spinner) findViewById(R.id.LogFileSpinner);
 		ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, menu2);
-		adapter2
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		logFile.setAdapter(adapter2);
 	}
 
@@ -203,11 +201,13 @@ public class SysLogActivity extends Activity implements
 					command = pos + " /var/log/" + file;
 				} else {
 					try {
-						int i = Integer.parseInt(lineNumbers.getText().toString());
+						int i = Integer.parseInt(lineNumbers.getText()
+								.toString());
 						command = pos + " -n " + i + " /var/log/" + file;
 					} catch (NumberFormatException e) {
 						Toast.makeText(SysLogActivity.this,
-								R.string.SysLogLineNumberprompt, Toast.LENGTH_SHORT).show();
+								R.string.SysLogLineNumberprompt,
+								Toast.LENGTH_SHORT).show();
 						return false;
 					}
 
@@ -225,7 +225,8 @@ public class SysLogActivity extends Activity implements
 					if (result.equalsIgnoreCase(""))
 						result = getString(R.string.SysLogNoLogsFoundprompt);
 					if (inDialog) {
-						Intent res = new Intent(SysLogActivity.this, LogsDialog.class);
+						Intent res = new Intent(SysLogActivity.this,
+								LogsDialog.class);
 						res.putExtra("LogsResult", result);
 						startActivity(res);
 					} else {
@@ -236,26 +237,34 @@ public class SysLogActivity extends Activity implements
 							if (!result
 									.equalsIgnoreCase(getString(R.string.SysLogNoLogsFoundprompt))) {
 								Date date = new Date();
-								String dateString = date.getMonth() + "_" + date.getDay() + "_"
-										+ date.getHours() + "_" + date.getMinutes();
-								String fileName = user.getUsername() + "_"
-										+ menu2[logFile.getSelectedItemPosition()] + "_"
-										+ dateString + ".txt";
-								target = new FileWriter("/sdcard/Cura/SysLog/" + fileName);
+								String dateString = date.getMonth() + "_"
+										+ date.getDay() + "_" + date.getHours()
+										+ "_" + date.getMinutes();
+								String fileName = user.getUsername()
+										+ "_"
+										+ menu2[logFile
+												.getSelectedItemPosition()]
+										+ "_" + dateString + ".txt";
+								target = new FileWriter("/sdcard/Cura/SysLog/"
+										+ fileName);
 								target.append(result);
 								target.flush();
 								target.close();
 								Toast.makeText(
 										SysLogActivity.this,
-										getString(R.string.logsSaved) + " \"/SysLog/" + fileName
-												+ "\"", Toast.LENGTH_LONG).show();
+										getString(R.string.logsSaved)
+												+ " \"/SysLog/" + fileName
+												+ "\"", Toast.LENGTH_LONG)
+										.show();
 							} else
-								Toast.makeText(SysLogActivity.this,
+								Toast.makeText(
+										SysLogActivity.this,
 										getString(R.string.SysLogNoLogsFoundprompt),
 										Toast.LENGTH_LONG).show();
 						} catch (IOException e) {
-							Toast.makeText(SysLogActivity.this, R.string.logsNotSaved,
-									Toast.LENGTH_LONG).show();
+							Toast.makeText(SysLogActivity.this,
+									R.string.logsNotSaved, Toast.LENGTH_LONG)
+									.show();
 						}
 					}
 				} else
@@ -274,29 +283,38 @@ public class SysLogActivity extends Activity implements
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-			new AlertDialog.Builder(this).setTitle("Logout Confirmation")
+			new AlertDialog.Builder(this)
+					.setTitle("Logout Confirmation")
 					.setMessage(R.string.logoutConfirmationDialog)
-					.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
 
-						public void onClick(DialogInterface dialog, int which) {
-							try {
-								Log.d("Connection", "connection closed");
-							} catch (Exception e) {
-								Log.d("Connection", e.toString());
-							}
-							Intent closeAllActivities = new Intent(SysLogActivity.this,
-									LoginScreenActivity.class);
-							closeAllActivities.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							SysLogActivity.this.startActivity(closeAllActivities);
+								public void onClick(DialogInterface dialog,
+										int which) {
+									try {
+										Log.d("Connection", "connection closed");
+									} catch (Exception e) {
+										Log.d("Connection", e.toString());
+									}
+									Intent closeAllActivities = new Intent(
+											SysLogActivity.this,
+											LoginScreenActivity.class);
+									closeAllActivities
+											.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									SysLogActivity.this
+											.startActivity(closeAllActivities);
 
-							mNotificationManager.cancelAll();
-						}
-					}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+									mNotificationManager.cancelAll();
+								}
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
 
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					}).show();
+								public void onClick(DialogInterface dialog,
+										int which) {
+									dialog.dismiss();
+								}
+							}).show();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
@@ -304,12 +322,12 @@ public class SysLogActivity extends Activity implements
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this);
+		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this);
+		FlurryAgent.onEndSession(this);
 	}
 }

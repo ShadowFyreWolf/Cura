@@ -40,7 +40,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cura.Connection.SSHConnection;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.flurry.android.FlurryAgent;
 
 public class FavoriteCommands extends ListActivity {
 
@@ -71,7 +71,8 @@ public class FavoriteCommands extends ListActivity {
 		if (c != null) {
 			if (c.moveToFirst()) {
 				do {
-					favoriteCommands[counter] = c.getString(c.getColumnIndex("command"));
+					favoriteCommands[counter] = c.getString(c
+							.getColumnIndex("command"));
 					counter++;
 				} while (c.moveToNext());
 			}
@@ -87,7 +88,8 @@ public class FavoriteCommands extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		commandItem = (String) getListAdapter().getItem(position);
-		Toast.makeText(this, commandItem + " selected", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, commandItem + " selected", Toast.LENGTH_LONG)
+				.show();
 	}
 
 	@Override
@@ -99,7 +101,8 @@ public class FavoriteCommands extends ListActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
 		String command = favoriteCommands[info.position];
 
 		dbHelper = new DbHelper(FavoriteCommands.this);
@@ -127,13 +130,13 @@ public class FavoriteCommands extends ListActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this);
+		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this);
+		FlurryAgent.onEndSession(this);
 	}
 
 	@Override

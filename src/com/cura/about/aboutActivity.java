@@ -27,8 +27,6 @@ package com.cura.about;
 
 import java.util.Vector;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
@@ -37,6 +35,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
+import com.flurry.android.FlurryAgent;
 
 public class aboutActivity extends ListActivity {
 
@@ -55,8 +55,8 @@ public class aboutActivity extends ListActivity {
 		ListView list = getListView();
 		list.setOnItemClickListener(new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
 
 				switch (position) {
 				case LICENSE:
@@ -65,21 +65,25 @@ public class aboutActivity extends ListActivity {
 					startActivity(licenseIntent);
 					break;
 				case EMAIL:
-					Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+					Intent emailIntent = new Intent(
+							android.content.Intent.ACTION_SEND);
 
 					String EmailValue[] = { "cura.app@gmail.com" };
 
 					emailIntent.setType("plain/text");
-					emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, EmailValue);
+					emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+							EmailValue);
 					emailIntent.putExtra(android.content.Intent.EXTRA_CC, "");
 					emailIntent.putExtra(android.content.Intent.EXTRA_BCC, "");
-					emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+					emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+							"");
 					emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
 					startActivity(emailIntent);
 					break;
 				case WEBSITE:
 					Uri uriUrl = Uri.parse("http://odaym.github.com/Cura/");
-					Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+					Intent launchBrowser = new Intent(Intent.ACTION_VIEW,
+							uriUrl);
 					startActivity(launchBrowser);
 					break;
 				}
@@ -110,12 +114,12 @@ public class aboutActivity extends ListActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this);
+		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this);
+		FlurryAgent.onEndSession(this);
 	}
 }

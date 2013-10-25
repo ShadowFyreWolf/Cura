@@ -66,7 +66,7 @@ import com.cura.ScreenCapture;
 import com.cura.User;
 import com.cura.Connection.CommunicationInterface;
 import com.cura.Connection.ConnectionService;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.flurry.android.FlurryAgent;
 
 public class TerminalActivity extends Activity {
 	private final int FAVORITES = 1;
@@ -106,8 +106,8 @@ public class TerminalActivity extends Activity {
 
 	public void doBindService() {
 		Intent i = new Intent(this, ConnectionService.class);
-		getApplicationContext()
-				.bindService(i, connection, Context.BIND_AUTO_CREATE);
+		getApplicationContext().bindService(i, connection,
+				Context.BIND_AUTO_CREATE);
 	}
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -120,9 +120,11 @@ public class TerminalActivity extends Activity {
 			userTemp = extras.getParcelable("user");
 		}
 		if (userTemp.getUsername().compareTo("root") == 0) {
-			username = userTemp.getUsername() + "@" + userTemp.getDomain() + ":~# ";
+			username = userTemp.getUsername() + "@" + userTemp.getDomain()
+					+ ":~# ";
 		} else {
-			username = userTemp.getUsername() + "@" + userTemp.getDomain() + ":~$ ";
+			username = userTemp.getUsername() + "@" + userTemp.getDomain()
+					+ ":~$ ";
 		}
 		this.setTitle("Welcome to the terminal, " + userTemp.getUsername());
 		execute = (Button) findViewById(R.id.executeButton);
@@ -131,7 +133,8 @@ public class TerminalActivity extends Activity {
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
 					@Override
-					public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
 						if (actionId == EditorInfo.IME_ACTION_GO) {
 							execute.performClick();
 							return true;
@@ -187,15 +190,17 @@ public class TerminalActivity extends Activity {
 					}
 				}
 				if (counter == 0) {
-					Toast.makeText(TerminalActivity.this, R.string.noFavoritesFound,
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(TerminalActivity.this,
+							R.string.noFavoritesFound, Toast.LENGTH_SHORT)
+							.show();
 				} else {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							TerminalActivity.this);
 					builder.setTitle("Pick a command");
 					builder.setItems(favoriteCommands,
 							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int item) {
+								public void onClick(DialogInterface dialog,
+										int item) {
 									commandLine.append(favoriteCommands[item]);
 								}
 
@@ -230,13 +235,15 @@ public class TerminalActivity extends Activity {
 			addUser.setMessage(R.string.addNewCommandToFavoritesprompt);
 			final EditText commandText = new EditText(this);
 			addUser.setView(commandText);
-			addUser.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					String command = commandText.getText().toString();
-					addCommandToDatabase(command);
-					return;
-				}
-			});
+			addUser.setPositiveButton("Ok",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							String command = commandText.getText().toString();
+							addCommandToDatabase(command);
+							return;
+						}
+					});
 			addUser.setNegativeButton("Cancel",
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
@@ -247,16 +254,16 @@ public class TerminalActivity extends Activity {
 			final AlertDialog alert = addUser.create();
 			alert.show();
 			commandText.addTextChangedListener(new TextWatcher() {
-				public void onTextChanged(CharSequence s, int start, int before,
-						int count) {
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
 					if (commandText.getText().length() > 0)
 						alert.getButton(Dialog.BUTTON1).setEnabled(true);
 					else
 						alert.getButton(Dialog.BUTTON1).setEnabled(false);
 				}
 
-				public void beforeTextChanged(CharSequence s, int start, int count,
-						int after) {
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
 				}
 
 				public void afterTextChanged(Editable s) {
@@ -267,9 +274,11 @@ public class TerminalActivity extends Activity {
 		case CLEAR_EDITTEXT:
 			result.setText("");
 			if (userTemp.getUsername().compareTo("root") == 0) {
-				username = userTemp.getUsername() + "@" + userTemp.getDomain() + ":~# ";
+				username = userTemp.getUsername() + "@" + userTemp.getDomain()
+						+ ":~# ";
 			} else {
-				username = userTemp.getUsername() + "@" + userTemp.getDomain() + ":~$ ";
+				username = userTemp.getUsername() + "@" + userTemp.getDomain()
+						+ ":~$ ";
 			}
 			result.append(username);
 			break;
@@ -282,13 +291,14 @@ public class TerminalActivity extends Activity {
 					try {
 						ScreenCapture sc = new ScreenCapture();
 						Date date = new Date();
-						String dateString = date.getMonth() + "_" + date.getDay() + "_"
-								+ date.getHours() + "_" + date.getMinutes() + "_"
-								+ date.getSeconds();
+						String dateString = date.getMonth() + "_"
+								+ date.getDay() + "_" + date.getHours() + "_"
+								+ date.getMinutes() + "_" + date.getSeconds();
 						title += dateString;
 						sc.capture(
-								getWindow().getDecorView().findViewById(android.R.id.content),
-								title, getContentResolver());
+								getWindow().getDecorView().findViewById(
+										android.R.id.content), title,
+								getContentResolver());
 					} catch (Exception ex) {
 						return false;
 					}
@@ -298,8 +308,11 @@ public class TerminalActivity extends Activity {
 				@Override
 				protected void onPostExecute(Boolean result) {
 					if (result)
-						Toast.makeText(TerminalActivity.this,
-								title + " " + getString(R.string.screenCaptureSaved),
+						Toast.makeText(
+								TerminalActivity.this,
+								title
+										+ " "
+										+ getString(R.string.screenCaptureSaved),
 								Toast.LENGTH_LONG).show();
 					super.onPostExecute(result);
 				}
@@ -319,11 +332,11 @@ public class TerminalActivity extends Activity {
 
 		try {
 			db.insertOrThrow(DbHelper.commandTableName, null, values);
-			Toast.makeText(this, "Command added successfully!", Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(this, "Command added successfully!",
+					Toast.LENGTH_SHORT).show();
 		} catch (Exception e) {
-			Toast.makeText(this, "Command could not be added!", Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(this, "Command could not be added!",
+					Toast.LENGTH_SHORT).show();
 			Log.d("SQL", e.toString());
 		}
 
@@ -364,29 +377,38 @@ public class TerminalActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-			new AlertDialog.Builder(this).setTitle("Logout Confirmation")
+			new AlertDialog.Builder(this)
+					.setTitle("Logout Confirmation")
 					.setMessage(R.string.logoutConfirmationDialog)
-					.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
 
-						public void onClick(DialogInterface dialog, int which) {
-							try {
-								Log.d("Connection", "connection closed");
-							} catch (Exception e) {
-								Log.d("Connection", e.toString());
-							}
-							Intent closeAllActivities = new Intent(TerminalActivity.this,
-									LoginScreenActivity.class);
-							closeAllActivities.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							TerminalActivity.this.startActivity(closeAllActivities);
+								public void onClick(DialogInterface dialog,
+										int which) {
+									try {
+										Log.d("Connection", "connection closed");
+									} catch (Exception e) {
+										Log.d("Connection", e.toString());
+									}
+									Intent closeAllActivities = new Intent(
+											TerminalActivity.this,
+											LoginScreenActivity.class);
+									closeAllActivities
+											.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									TerminalActivity.this
+											.startActivity(closeAllActivities);
 
-							mNotificationManager.cancelAll();
-						}
-					}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+									mNotificationManager.cancelAll();
+								}
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
 
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					}).show();
+								public void onClick(DialogInterface dialog,
+										int which) {
+									dialog.dismiss();
+								}
+							}).show();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
@@ -394,12 +416,12 @@ public class TerminalActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this);
+		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this);
+		FlurryAgent.onEndSession(this);
 	}
 }

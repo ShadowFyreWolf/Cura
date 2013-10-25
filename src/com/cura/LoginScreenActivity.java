@@ -73,7 +73,7 @@ import com.cura.Connection.ConnectionService;
 import com.cura.about.aboutActivity;
 import com.cura.rate.AppRater;
 import com.cura.validation.regexValidator;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.flurry.android.FlurryAgent;
 
 public class LoginScreenActivity extends Activity implements
 		android.view.View.OnClickListener {
@@ -136,11 +136,12 @@ public class LoginScreenActivity extends Activity implements
 					startActivity(goToMainActivity);
 				} else {
 					isConnected = false;
-					Toast.makeText(context, R.string.credentialsWrong, Toast.LENGTH_LONG)
-							.show();
+					Toast.makeText(context, R.string.credentialsWrong,
+							Toast.LENGTH_LONG).show();
 					((ImageView) findViewById(R.id.server))
 							.setImageResource(R.drawable.serveroffline);
-					((TextView) findViewById(R.id.connecting)).setVisibility(View.GONE);
+					((TextView) findViewById(R.id.connecting))
+							.setVisibility(View.GONE);
 					buttonsLayout.setVisibility(View.VISIBLE);
 
 					stopService(new Intent(LoginScreenActivity.this,
@@ -170,31 +171,35 @@ public class LoginScreenActivity extends Activity implements
 			ListView mlistView = new ListView(this);
 			mlistView.setOnItemClickListener(new OnItemClickListener() {
 				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-						long arg3) {
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
 					accounts.dismiss();
 					position = arg2;
 					if (user.length == 1
-							&& user[0].getUsername().equalsIgnoreCase("username")
+							&& user[0].getUsername().equalsIgnoreCase(
+									"username")
 							&& user[0].getDomain().equalsIgnoreCase("domain")) {
-						Toast.makeText(LoginScreenActivity.this, R.string.addServerHint,
-								Toast.LENGTH_LONG).show();
+						Toast.makeText(LoginScreenActivity.this,
+								R.string.addServerHint, Toast.LENGTH_LONG)
+								.show();
 					} else {
 						AlertDialog.Builder passwordAlert = new AlertDialog.Builder(
 								LoginScreenActivity.this);
 
 						passwordAlert.setTitle("Login");
 
-						LayoutInflater li = LayoutInflater.from(LoginScreenActivity.this);
+						LayoutInflater li = LayoutInflater
+								.from(LoginScreenActivity.this);
 						View view = li.inflate(R.layout.password_dialog, null);
 						passwordAlert.setView(view);
 						final EditText passField = (EditText) view
 								.findViewById(R.id.passwordprompt);
-						CheckBox showPass = (CheckBox) view.findViewById(R.id.showPassword);
+						CheckBox showPass = (CheckBox) view
+								.findViewById(R.id.showPassword);
 						showPass.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-							public void onCheckedChanged(CompoundButton buttonView,
-									boolean isChecked) {
+							public void onCheckedChanged(
+									CompoundButton buttonView, boolean isChecked) {
 								if (isChecked)
 									passField.setTransformationMethod(null);
 								else
@@ -205,7 +210,8 @@ public class LoginScreenActivity extends Activity implements
 						});
 						passwordAlert.setPositiveButton("Connect",
 								new DialogInterface.OnClickListener() {
-									public void onClick(final DialogInterface dialog,
+									public void onClick(
+											final DialogInterface dialog,
 											int whichButton) {
 										InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 										keyboard.hideSoftInputFromWindow(
@@ -222,23 +228,31 @@ public class LoginScreenActivity extends Activity implements
 														.setImageResource(R.drawable.serverconnecting);
 												((TextView) findViewById(R.id.connecting))
 														.setVisibility(View.VISIBLE);
-												buttonsLayout.setVisibility(View.GONE);
+												buttonsLayout
+														.setVisibility(View.GONE);
 											}
 
 											@Override
-											protected String doInBackground(String... params) {
-												String pass = passField.getText().toString();
-												user[position].setPassword(pass);
+											protected String doInBackground(
+													String... params) {
+												String pass = passField
+														.getText().toString();
+												user[position]
+														.setPassword(pass);
 												userTemp = user[position];
 												passUserObjToService = new Intent(
-														LoginScreenActivity.this, ConnectionService.class);
-												passUserObjToService.putExtra("user", userTemp);
-												passUserObjToService.putExtra("pass", pass);
+														LoginScreenActivity.this,
+														ConnectionService.class);
+												passUserObjToService.putExtra(
+														"user", userTemp);
+												passUserObjToService.putExtra(
+														"pass", pass);
 												return null;
 											}
 
 											@Override
-											protected void onPostExecute(String result) {
+											protected void onPostExecute(
+													String result) {
 												startService(passUserObjToService);
 											}
 										};
@@ -248,7 +262,8 @@ public class LoginScreenActivity extends Activity implements
 								});
 						passwordAlert.setNegativeButton("Cancel",
 								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog, int which) {
+									public void onClick(DialogInterface dialog,
+											int which) {
 										return;
 									}
 								});
@@ -256,26 +271,30 @@ public class LoginScreenActivity extends Activity implements
 								.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
 									@Override
-									public boolean onEditorAction(TextView arg0, int arg1,
+									public boolean onEditorAction(
+											TextView arg0, int arg1,
 											KeyEvent arg2) {
-										alert.getButton(Dialog.BUTTON1).performClick();
+										alert.getButton(Dialog.BUTTON1)
+												.performClick();
 										return false;
 									}
 								});
 						alert = passwordAlert.create();
 						alert.show();
 						passField.addTextChangedListener(new TextWatcher() {
-							public void onTextChanged(CharSequence s, int start, int before,
-									int count) {
+							public void onTextChanged(CharSequence s,
+									int start, int before, int count) {
 								String pass = passField.getText().toString();
 								if (pass.length() > 0)
-									alert.getButton(Dialog.BUTTON1).setEnabled(true);
+									alert.getButton(Dialog.BUTTON1).setEnabled(
+											true);
 								else if (pass.length() == 0)
-									alert.getButton(Dialog.BUTTON1).setEnabled(false);
+									alert.getButton(Dialog.BUTTON1).setEnabled(
+											false);
 							}
 
-							public void beforeTextChanged(CharSequence s, int start,
-									int count, int after) {
+							public void beforeTextChanged(CharSequence s,
+									int start, int count, int after) {
 							}
 
 							public void afterTextChanged(Editable s) {
@@ -318,9 +337,11 @@ public class LoginScreenActivity extends Activity implements
 			if (c != null) {
 				if (c.moveToFirst()) {
 					do {
-						String username = c.getString(c.getColumnIndex("username"));
+						String username = c.getString(c
+								.getColumnIndex("username"));
 						String domain = c.getString(c.getColumnIndex("domain"));
-						int port = Integer.parseInt(c.getString(c.getColumnIndex("port")));
+						int port = Integer.parseInt(c.getString(c
+								.getColumnIndex("port")));
 						user[counter] = new User(username, domain, port);
 						counter++;
 					} while (c.moveToNext());
@@ -372,16 +393,20 @@ public class LoginScreenActivity extends Activity implements
 			alert.setView(passField);
 			alert.setPositiveButton(R.string.ok,
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
 							String curaPass = prefs.getString("myPass", "");
 							String passfield = passField.getText().toString();
-							if (passwordEncryptor.checkPassword(passfield, curaPass))
-								startActivity(new Intent(LoginScreenActivity.this,
+							if (passwordEncryptor.checkPassword(passfield,
+									curaPass))
+								startActivity(new Intent(
+										LoginScreenActivity.this,
 										PreferenceScreen.class));
 							else
 								Toast.makeText(LoginScreenActivity.this,
-										R.string.wrongPassword, Toast.LENGTH_SHORT).show();
+										R.string.wrongPassword,
+										Toast.LENGTH_SHORT).show();
 							return;
 						}
 					});
@@ -395,23 +420,26 @@ public class LoginScreenActivity extends Activity implements
 			settingsPassAlert.show();
 			passField.addTextChangedListener(new TextWatcher() {
 
-				public void onTextChanged(CharSequence s, int start, int before,
-						int count) {
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
 					String pass = passField.getText().toString();
 					if (pass.length() > 0)
-						settingsPassAlert.getButton(Dialog.BUTTON1).setEnabled(true);
+						settingsPassAlert.getButton(Dialog.BUTTON1).setEnabled(
+								true);
 					else if (pass.length() == 0)
-						settingsPassAlert.getButton(Dialog.BUTTON1).setEnabled(false);
+						settingsPassAlert.getButton(Dialog.BUTTON1).setEnabled(
+								false);
 				}
 
-				public void beforeTextChanged(CharSequence s, int start, int count,
-						int after) {
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
 				}
 
 				public void afterTextChanged(Editable s) {
 				}
 			});
-			settingsPassAlert.getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
+			settingsPassAlert.getButton(Dialog.BUTTON_POSITIVE).setEnabled(
+					false);
 			return true;
 		case ABOUT:
 			Intent aboutIntent = new Intent(LoginScreenActivity.this,
@@ -430,7 +458,8 @@ public class LoginScreenActivity extends Activity implements
 		myDialog.setCancelable(true);
 		myDialog.setCanceledOnTouchOutside(true);
 
-		final Button AddUserButton = (Button) myDialog.findViewById(R.id.button1);
+		final Button AddUserButton = (Button) myDialog
+				.findViewById(R.id.button1);
 		AddUserButton.setEnabled(false);
 		Button cancelButton = (Button) myDialog.findViewById(R.id.button2);
 		TextWatcher watcher = null;
@@ -454,11 +483,13 @@ public class LoginScreenActivity extends Activity implements
 					int after) {
 			}
 
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 				String username = usernameInput.getText().toString();
 				String domain = domainInput.getText().toString();
 				String port = portInput.getText().toString();
-				if (rv.validateUsername(username) && !domain.equalsIgnoreCase("")
+				if (rv.validateUsername(username)
+						&& !domain.equalsIgnoreCase("")
 						&& !port.equalsIgnoreCase(""))
 					AddUserButton.setEnabled(true);
 				else
@@ -479,8 +510,8 @@ public class LoginScreenActivity extends Activity implements
 					port = Integer.parseInt(portInput.getText().toString());
 				} catch (Exception e) {
 					port = 22;
-					Toast.makeText(LoginScreenActivity.this, R.string.portError,
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(LoginScreenActivity.this,
+							R.string.portError, Toast.LENGTH_LONG).show();
 				}
 				if (!isFound(usern, domain)) {
 					DbHelper dbHelper = new DbHelper(LoginScreenActivity.this);
@@ -527,7 +558,8 @@ public class LoginScreenActivity extends Activity implements
 		for (int i = 0; i < user.length; i++) {
 			userValue = user[i].getUsername();
 			dom = user[i].getDomain();
-			if (userValue.compareTo(username) == 0 && dom.compareTo(domain) == 0)
+			if (userValue.compareTo(username) == 0
+					&& dom.compareTo(domain) == 0)
 				return true;
 		}
 		return false;
@@ -548,14 +580,14 @@ public class LoginScreenActivity extends Activity implements
 			goToMainActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			goToMainActivity.putExtra("user", userTemp);
 			startActivity(goToMainActivity);
-			EasyTracker.getInstance().activityStart(this);
+			FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 		}
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this);
+		FlurryAgent.onEndSession(this);
 	}
 
 	@Override

@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="libs/commons-lang3-3.1.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="libs/Flurry_3.2.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

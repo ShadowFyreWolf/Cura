@@ -24,11 +24,11 @@ package com.cura.about;
  * attribution beneath it.
  */
 
-import com.cura.R;
-import com.google.analytics.tracking.android.EasyTracker;
-
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.cura.R;
+import com.flurry.android.FlurryAgent;
 
 public class LicenseActivity extends Activity {
 
@@ -42,12 +42,12 @@ public class LicenseActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this);
+		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this);
+		FlurryAgent.onEndSession(this);
 	}
 }
