@@ -580,8 +580,8 @@ public class LoginScreenActivity extends Activity implements
 			goToMainActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			goToMainActivity.putExtra("user", userTemp);
 			startActivity(goToMainActivity);
-			FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 		}
+		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
@@ -594,5 +594,6 @@ public class LoginScreenActivity extends Activity implements
 	protected void onDestroy() {
 		super.onDestroy();
 		unregisterReceiver(br);
+		
 	}
 }
