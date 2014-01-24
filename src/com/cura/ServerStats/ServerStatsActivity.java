@@ -57,7 +57,6 @@ import com.cura.ScreenCapture;
 import com.cura.User;
 import com.cura.Connection.CommunicationInterface;
 import com.cura.Connection.ConnectionService;
-import com.flurry.android.FlurryAgent;
 
 public class ServerStatsActivity extends Activity {
 
@@ -373,12 +372,10 @@ public class ServerStatsActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		FlurryAgent.onEndSession(this);
 	}
 }

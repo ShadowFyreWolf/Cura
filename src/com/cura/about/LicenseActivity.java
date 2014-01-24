@@ -28,7 +28,6 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.cura.R;
-import com.flurry.android.FlurryAgent;
 
 public class LicenseActivity extends Activity {
 
@@ -42,12 +41,10 @@ public class LicenseActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		FlurryAgent.onEndSession(this);
 	}
 }

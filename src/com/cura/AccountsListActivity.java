@@ -52,7 +52,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cura.validation.regexValidator;
-import com.flurry.android.FlurryAgent;
 
 public class AccountsListActivity extends ListActivity {
 
@@ -122,11 +121,9 @@ public class AccountsListActivity extends ListActivity {
 			if (c != null) {
 				if (c.moveToFirst()) {
 					do {
-						String username = c.getString(c
-								.getColumnIndex("username"));
+						String username = c.getString(c.getColumnIndex("username"));
 						String domain = c.getString(c.getColumnIndex("domain"));
-						int port = Integer.parseInt(c.getString(c
-								.getColumnIndex("port")));
+						int port = Integer.parseInt(c.getString(c.getColumnIndex("port")));
 						user[counter] = new User(username, domain, port);
 						counter++;
 					} while (c.moveToNext());
@@ -149,16 +146,14 @@ public class AccountsListActivity extends ListActivity {
 					.setMessage(R.string.firstTimeUseMessage)
 					.setPositiveButton(R.string.firstTimeUseOKButton,
 							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
+								public void onClick(DialogInterface dialog, int whichButton) {
 
 									/* User clicked OK so do some stuff */
 								}
 							})
 					.setNegativeButton(R.string.firstTimeUseCancelButton,
 							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
+								public void onClick(DialogInterface dialog, int whichButton) {
 
 									/* User clicked Cancel so do some stuff */
 								}
@@ -185,8 +180,7 @@ public class AccountsListActivity extends ListActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		final int userIDint = (int) info.id;
 		final String usernameCode = user[userIDint].getUsername();
 		final String domainCode = user[userIDint].getDomain();
@@ -203,8 +197,7 @@ public class AccountsListActivity extends ListActivity {
 			myDialog.setCancelable(true);
 			myDialog.setCanceledOnTouchOutside(true);
 
-			Button modifyUserInfo = (Button) myDialog
-					.findViewById(R.id.button1);
+			Button modifyUserInfo = (Button) myDialog.findViewById(R.id.button1);
 			modifyUserInfo.setText(R.string.ModifyServerInfo);
 			Button cancelButton = (Button) myDialog.findViewById(R.id.button2);
 
@@ -227,9 +220,8 @@ public class AccountsListActivity extends ListActivity {
 						port = Integer.parseInt(portInput.getText().toString());
 					} catch (Exception e) {
 						port = user[userIDint].getPort();
-						Toast.makeText(AccountsListActivity.this,
-								R.string.portErrorModify, Toast.LENGTH_LONG)
-								.show();
+						Toast.makeText(AccountsListActivity.this, R.string.portErrorModify,
+								Toast.LENGTH_LONG).show();
 					}
 					ContentValues values = new ContentValues();
 
@@ -240,8 +232,7 @@ public class AccountsListActivity extends ListActivity {
 					String where = "username = ? AND domain = ?";
 					String[] whereArgs = { usernameCode, domainCode };
 					try {
-						db.update(DbHelper.userTableName, values, where,
-								whereArgs);
+						db.update(DbHelper.userTableName, values, where, whereArgs);
 					} catch (Exception e) {
 						Log.d("SQL", e.toString());
 					}
@@ -250,8 +241,7 @@ public class AccountsListActivity extends ListActivity {
 					dbHelper.close();
 
 					user = getUser();
-					array = new CustomArrayAdapter(AccountsListActivity.this,
-							user);
+					array = new CustomArrayAdapter(AccountsListActivity.this, user);
 					setListAdapter(array);
 
 					myDialog.cancel();
@@ -294,8 +284,7 @@ public class AccountsListActivity extends ListActivity {
 		for (int i = 0; i < user.length; i++) {
 			userValue = user[i].getUsername();
 			dom = user[i].getDomain();
-			if (userValue.compareTo(username) == 0
-					&& dom.compareTo(domain) == 0)
+			if (userValue.compareTo(username) == 0 && dom.compareTo(domain) == 0)
 				return true;
 		}
 		return false;
@@ -304,13 +293,11 @@ public class AccountsListActivity extends ListActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		FlurryAgent.onEndSession(this);
 	}
 
 	@Override

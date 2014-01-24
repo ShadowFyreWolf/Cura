@@ -59,7 +59,6 @@ import com.cura.R;
 import com.cura.ScreenCapture;
 import com.cura.Connection.CommunicationInterface;
 import com.cura.Connection.ConnectionService;
-import com.flurry.android.FlurryAgent;
 
 public class SysMonitorActivity extends Activity {
 
@@ -309,12 +308,10 @@ public class SysMonitorActivity extends Activity {
 		view.refreshDrawableState();
 		view.repaint();
 		setContentView(view);
-		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		FlurryAgent.onEndSession(this);
 	}
 }

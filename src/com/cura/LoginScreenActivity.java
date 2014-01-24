@@ -73,7 +73,6 @@ import com.cura.Connection.ConnectionService;
 import com.cura.about.aboutActivity;
 import com.cura.rate.AppRater;
 import com.cura.validation.regexValidator;
-import com.flurry.android.FlurryAgent;
 
 public class LoginScreenActivity extends Activity implements
 		android.view.View.OnClickListener {
@@ -580,19 +579,18 @@ public class LoginScreenActivity extends Activity implements
 			goToMainActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			goToMainActivity.putExtra("user", userTemp);
 			startActivity(goToMainActivity);
-			FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 		}
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		FlurryAgent.onEndSession(this);
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		unregisterReceiver(br);
+		
 	}
 }

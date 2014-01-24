@@ -62,7 +62,6 @@ import com.cura.Terminal.TerminalActivity;
 import com.cura.nmap.NmapActivity;
 import com.cura.syslog.SysLogActivity;
 import com.cura.sysmonitor.SysMonitorActivity;
-import com.flurry.android.FlurryAgent;
 
 public class CuraActivity extends TabActivity implements OnClickListener,
 		OnTouchListener {
@@ -316,13 +315,11 @@ public class CuraActivity extends TabActivity implements OnClickListener,
 	@Override
 	public void onStart() {
 		super.onStart();
-		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		FlurryAgent.onEndSession(this);
 	}
 
 	@Override

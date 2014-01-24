@@ -40,7 +40,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cura.Connection.SSHConnection;
-import com.flurry.android.FlurryAgent;
 
 public class FavoriteCommands extends ListActivity {
 
@@ -130,13 +129,11 @@ public class FavoriteCommands extends ListActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		FlurryAgent.onEndSession(this);
 	}
 
 	@Override

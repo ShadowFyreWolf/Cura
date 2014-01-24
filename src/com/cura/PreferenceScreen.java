@@ -53,7 +53,6 @@ import android.widget.Toast;
 
 import com.cura.security.SMSService;
 import com.cura.validation.regexValidator;
-import com.flurry.android.FlurryAgent;
 
 public class PreferenceScreen extends PreferenceActivity implements
 		OnPreferenceClickListener, OnSharedPreferenceChangeListener {
@@ -147,12 +146,10 @@ public class PreferenceScreen extends PreferenceActivity implements
 	@Override
 	public void onStart() {
 		super.onStart();
-		FlurryAgent.onStartSession(this, "ZD4G22BQPWBPCXM3MVZF");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		FlurryAgent.onEndSession(this);
 	}
 }
