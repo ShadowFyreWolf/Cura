@@ -313,25 +313,6 @@ public class CuraActivity extends TabActivity implements OnClickListener,
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-	}
-
-	@Override
 	public void onClick(View arg0) {
-	}
-
-	private View prepareTabView(String text, int resId) {
-		View view = LayoutInflater.from(this).inflate(R.layout.tablayout, null);
-		ImageView iv = (ImageView) view.findViewById(R.id.TabImageView);
-		TextView tv = (TextView) view.findViewById(R.id.TabTextView);
-		iv.setImageResource(resId);
-		tv.setText(text);
-		return view;
 	}
 }
