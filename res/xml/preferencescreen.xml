@@ -1,28 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <PreferenceCategory android:title="@string/securityCategory" >
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="enableSMS"
-            android:title="@string/security" />
-
-        <EditTextPreference
-            android:defaultValue=""
-            android:key="alternativeEmail"
-            android:summary=""
-            android:title="@string/alternativeEmail" />
-        <EditTextPreference
-            android:defaultValue=""
-            android:key="alternativePhoneNo"
-            android:summary=""
-            android:title="@string/alternativePhoneNo" />
-        <EditTextPreference
-            android:defaultValue=""
-            android:key="securityPattern"
-            android:summary=""
-            android:title="@string/securityPattern" />
-    </PreferenceCategory>
     
     <PreferenceCategory android:title="@string/notificationCategory" >
         <ListPreference android:entries="@array/timeIntervals"
@@ -30,15 +7,6 @@
             android:title="Login Watcher"
             android:key="minutes"
             android:defaultValue="0" />
-    </PreferenceCategory>
-    
-    <PreferenceCategory android:title="@string/curaPassword" >
-        <com.cura.PassDialogPreference
-            android:dialogLayout="@layout/prefpassdialog"
-            android:key="curaPassDialog"
-            android:negativeButtonText="Cancel"
-            android:positiveButtonText="OK"
-            android:title="@string/setCuraPass" />
     </PreferenceCategory>
 
 </PreferenceScreen>
