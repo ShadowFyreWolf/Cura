@@ -34,9 +34,9 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.cura.Connection.CommunicationInterface;
-import com.cura.Connection.ConnectionService;
-import com.cura.Connection.SSHConnection;
+import com.cura.connection.CommunicationInterface;
+import com.cura.connection.ConnectionService;
+import com.cura.connection.SSHConnection;
 
 public class NotificationService extends Service {
 

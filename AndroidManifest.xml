@@ -40,7 +40,7 @@
         <uses-library android:name="com.google.android.maps" />
 
         <activity
-            android:name=".LoginScreenActivity"
+            android:name="com.cura.main.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter>
@@ -59,19 +59,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CuraActivity"
+            android:name="com.cura.main.CuraActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
         <activity
-            android:name=".Terminal.TerminalActivity"
+            android:name="com.cura.terminal.TerminalActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/TerminalLabel"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".FavoriteCommands"
+            android:name="com.cura.terminal.FavoriteCommandsDialog"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
@@ -101,7 +101,7 @@
             android:label="@string/nmapActivityTitle" >
         </activity>
         <activity
-            android:name=".ServerStats.ServerStatsActivity"
+            android:name="com.cura.serverstats.ServerStatsActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
@@ -116,7 +116,7 @@
         <activity android:name="org.achartengine.GraphicalActivity" >
         </activity>
 
-        <service android:name=".Connection.ConnectionService" />
+        <service android:name="com.cura.connection.ConnectionService" />
         <service android:name=".security.SMSService" >
             <intent-filter>
                 <action android:name="com.cura.security.SMSService" >
@@ -131,7 +131,7 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".ConnectionBroadcastReceiver" >
+        <receiver android:name="com.cura.connection.ConnectionBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>

@@ -37,7 +37,7 @@ import android.widget.TextView;
 public class CustomArrayAdapter extends ArrayAdapter {
  Context context;
  User user[];
- DbHelper dbHelper;
+ DBHelper dbHelper;
  SQLiteDatabase db;
 
  @SuppressWarnings("unchecked")

@@ -17,7 +17,7 @@
     along with Cura.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.cura;
+package com.cura.main;
 
 /*
  * Description: This is the login screen and this is Cura's main first screen where the user will be dropped to upon accessing the 
@@ -69,12 +69,22 @@ import android.widget.TableLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cura.Connection.ConnectionService;
-import com.cura.about.aboutActivity;
-import com.cura.rate.AppRater;
-import com.cura.validation.regexValidator;
+import com.cura.AccountsListActivity;
+import com.cura.CustomArrayAdapter;
+import com.cura.DBHelper;
+import com.cura.PreferenceScreen;
+import com.cura.R;
+import com.cura.User;
+import com.cura.R.drawable;
+import com.cura.R.id;
+import com.cura.R.layout;
+import com.cura.R.string;
+import com.cura.about.AboutActivity;
+import com.cura.connection.ConnectionService;
+import com.cura.rateapp.AppRater;
+import com.cura.validation.RegexValidator;
 
-public class LoginScreenActivity extends Activity implements
+public class LoginActivity extends Activity implements
 		android.view.View.OnClickListener {
 
 	private final String connected = "cura.connected";
@@ -90,12 +100,12 @@ public class LoginScreenActivity extends Activity implements
 	private LinearLayout buttonsLayout;
 	private User user[];
 	private User userTemp;
-	private DbHelper dbHelper;
+	private DBHelper dbHelper;
 	private SQLiteDatabase db;
 	int position;
 	private Vibrator vibrator;
 	private SharedPreferences prefs;
-	private regexValidator rv;
+	private RegexValidator rv;
 	private boolean isConnected = false;
 	private AlertDialog alert;
 	private AsyncTask<String, String, String> task;
@@ -109,7 +119,7 @@ public class LoginScreenActivity extends Activity implements
 		// AppRater.showRateDialog(this, null);
 		((TextView) findViewById(R.id.connecting)).setVisibility(View.GONE);
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		rv = new regexValidator();
+		rv = new RegexValidator();
 
 		selectServer = (Button) findViewById(R.id.selectServer);
 		newServer = (Button) findViewById(R.id.newServer);
@@ -127,7 +137,7 @@ public class LoginScreenActivity extends Activity implements
 				}
 				if (intent.getAction().compareTo(connected) == 0) {
 					isConnected = true;
-					goToMainActivity = new Intent(LoginScreenActivity.this,
+					goToMainActivity = new Intent(LoginActivity.this,
 							CuraActivity.class);
 					goToMainActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					goToMainActivity.putExtra("user", userTemp);
@@ -141,7 +151,7 @@ public class LoginScreenActivity extends Activity implements
 					((TextView) findViewById(R.id.connecting)).setVisibility(View.GONE);
 					buttonsLayout.setVisibility(View.VISIBLE);
 
-					stopService(new Intent(LoginScreenActivity.this,
+					stopService(new Intent(LoginActivity.this,
 							ConnectionService.class));
 				}
 			}
@@ -175,15 +185,15 @@ public class LoginScreenActivity extends Activity implements
 					if (user.length == 1
 							&& user[0].getUsername().equalsIgnoreCase("username")
 							&& user[0].getDomain().equalsIgnoreCase("domain")) {
-						Toast.makeText(LoginScreenActivity.this, R.string.addServerHint,
+						Toast.makeText(LoginActivity.this, R.string.addServerHint,
 								Toast.LENGTH_LONG).show();
 					} else {
 						AlertDialog.Builder passwordAlert = new AlertDialog.Builder(
-								LoginScreenActivity.this);
+								LoginActivity.this);
 
 						passwordAlert.setTitle("Login");
 
-						LayoutInflater li = LayoutInflater.from(LoginScreenActivity.this);
+						LayoutInflater li = LayoutInflater.from(LoginActivity.this);
 						View view = li.inflate(R.layout.password_dialog, null);
 						passwordAlert.setView(view);
 						final EditText passField = (EditText) view
@@ -229,7 +239,7 @@ public class LoginScreenActivity extends Activity implements
 												user[position].setPassword(pass);
 												userTemp = user[position];
 												passUserObjToService = new Intent(
-														LoginScreenActivity.this, ConnectionService.class);
+														LoginActivity.this, ConnectionService.class);
 												passUserObjToService.putExtra("user", userTemp);
 												passUserObjToService.putExtra("pass", pass);
 												return null;
@@ -301,7 +311,7 @@ public class LoginScreenActivity extends Activity implements
 	}
 
 	public User[] getUser() {
-		dbHelper = new DbHelper(this);
+		dbHelper = new DBHelper(this);
 		db = dbHelper.getReadableDatabase();
 
 		Cursor c = db.rawQuery("select * from user", null);
@@ -361,11 +371,11 @@ public class LoginScreenActivity extends Activity implements
 				startActivity(new Intent(this, AccountsListActivity.class));
 			break;
 		case SETTINGS:
-			startActivity(new Intent(LoginScreenActivity.this, PreferenceScreen.class));
+			startActivity(new Intent(LoginActivity.this, PreferenceScreen.class));
 			break;
 		case ABOUT:
-			Intent aboutIntent = new Intent(LoginScreenActivity.this,
-					aboutActivity.class);
+			Intent aboutIntent = new Intent(LoginActivity.this,
+					AboutActivity.class);
 			startActivity(aboutIntent);
 			return true;
 		}
@@ -374,7 +384,7 @@ public class LoginScreenActivity extends Activity implements
 
 	protected void addUser() {
 		final Dialog myDialog;
-		myDialog = new Dialog(LoginScreenActivity.this);
+		myDialog = new Dialog(LoginActivity.this);
 		myDialog.setContentView(R.layout.adduserscreen);
 		myDialog.setTitle(R.string.DialogTitle);
 		myDialog.setCancelable(true);
@@ -429,11 +439,11 @@ public class LoginScreenActivity extends Activity implements
 					port = Integer.parseInt(portInput.getText().toString());
 				} catch (Exception e) {
 					port = 22;
-					Toast.makeText(LoginScreenActivity.this, R.string.portError,
+					Toast.makeText(LoginActivity.this, R.string.portError,
 							Toast.LENGTH_LONG).show();
 				}
 				if (!isFound(usern, domain)) {
-					DbHelper dbHelper = new DbHelper(LoginScreenActivity.this);
+					DBHelper dbHelper = new DBHelper(LoginActivity.this);
 					SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 					ContentValues values = new ContentValues();
@@ -453,7 +463,7 @@ public class LoginScreenActivity extends Activity implements
 
 					myDialog.cancel();
 				} else {
-					LoginScreenActivity.this.vibrator.vibrate(300);
+					LoginActivity.this.vibrator.vibrate(300);
 					userExists.setText(R.string.serverExists);
 					usernameInput.setText("");
 					domainInput.setText("");
@@ -493,7 +503,7 @@ public class LoginScreenActivity extends Activity implements
 	protected void onStart() {
 		super.onStart();
 		if (isConnected) {
-			goToMainActivity = new Intent(LoginScreenActivity.this,
+			goToMainActivity = new Intent(LoginActivity.this,
 					CuraActivity.class);
 			goToMainActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			goToMainActivity.putExtra("user", userTemp);

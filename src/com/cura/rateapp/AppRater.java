@@ -1,4 +1,4 @@
-package com.cura.rate;
+package com.cura.rateapp;
 
 import android.app.Dialog;
 import android.content.Context;

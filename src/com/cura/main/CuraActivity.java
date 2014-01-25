@@ -17,7 +17,7 @@
     along with Cura.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.cura;
+package com.cura.main;
 
 /*
  * Description: This is the activity that the user gets dropped to after they have logged in successfully and this is where
@@ -41,27 +41,29 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cura.Connection.CommunicationInterface;
-import com.cura.Connection.ConnectionService;
-import com.cura.ServerStats.ServerStatsActivity;
-import com.cura.Terminal.TerminalActivity;
+import com.cura.R;
+import com.cura.User;
+import com.cura.R.drawable;
+import com.cura.R.layout;
+import com.cura.R.string;
+import com.cura.connection.CommunicationInterface;
+import com.cura.connection.ConnectionService;
 import com.cura.nmap.NmapActivity;
+import com.cura.serverstats.ServerStatsActivity;
 import com.cura.syslog.SysLogActivity;
 import com.cura.sysmonitor.SysMonitorActivity;
+import com.cura.terminal.TerminalActivity;
 
 public class CuraActivity extends TabActivity implements OnClickListener,
 		OnTouchListener {
@@ -234,7 +236,7 @@ public class CuraActivity extends TabActivity implements OnClickListener,
 								Log.d("Connection", e.toString());
 							}
 							Intent closeAllActivities = new Intent(CuraActivity.this,
-									LoginScreenActivity.class);
+									LoginActivity.class);
 							closeAllActivities.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							CuraActivity.this.startActivity(closeAllActivities);
 							mNotificationManager.cancelAll();
@@ -314,5 +316,15 @@ public class CuraActivity extends TabActivity implements OnClickListener,
 
 	@Override
 	public void onClick(View arg0) {
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
 	}
 }

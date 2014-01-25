@@ -51,7 +51,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.cura.validation.regexValidator;
+import com.cura.validation.RegexValidator;
 
 public class AccountsListActivity extends ListActivity {
 
@@ -60,7 +60,7 @@ public class AccountsListActivity extends ListActivity {
 	private final String deleteDB = "database.delete";
 	private final int MODIFY_USER = 4;
 	private final int DELETE_USER = 5;
-	DbHelper dbHelper;
+	DBHelper dbHelper;
 	SQLiteDatabase db;
 	User user[];
 	User userTemp;
@@ -72,7 +72,7 @@ public class AccountsListActivity extends ListActivity {
 	private SharedPreferences prefs;
 	private static final int DIALOG_YES_NO_LONG_MESSAGE = 99;
 	private static final int WAIT = 100;
-	private regexValidator rv;
+	private RegexValidator rv;
 	private String loader_message = "";
 
 	@Override
@@ -81,7 +81,7 @@ public class AccountsListActivity extends ListActivity {
 		this.setTitle(R.string.LoginScreenName);
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		rv = new regexValidator();
+		rv = new RegexValidator();
 		user = getUser();
 		array = new CustomArrayAdapter(this, user);
 		setListAdapter(array);
@@ -106,7 +106,7 @@ public class AccountsListActivity extends ListActivity {
 	}
 
 	public User[] getUser() {
-		dbHelper = new DbHelper(this);
+		dbHelper = new DBHelper(this);
 		db = dbHelper.getReadableDatabase();
 
 		Cursor c = db.rawQuery("select * from user", null);
@@ -185,7 +185,7 @@ public class AccountsListActivity extends ListActivity {
 		final String usernameCode = user[userIDint].getUsername();
 		final String domainCode = user[userIDint].getDomain();
 
-		dbHelper = new DbHelper(AccountsListActivity.this);
+		dbHelper = new DBHelper(AccountsListActivity.this);
 		db = dbHelper.getWritableDatabase();
 
 		switch (item.getItemId()) {
@@ -232,7 +232,7 @@ public class AccountsListActivity extends ListActivity {
 					String where = "username = ? AND domain = ?";
 					String[] whereArgs = { usernameCode, domainCode };
 					try {
-						db.update(DbHelper.userTableName, values, where, whereArgs);
+						db.update(DBHelper.userTableName, values, where, whereArgs);
 					} catch (Exception e) {
 						Log.d("SQL", e.toString());
 					}

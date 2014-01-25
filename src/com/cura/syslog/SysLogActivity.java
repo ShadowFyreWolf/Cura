@@ -55,11 +55,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.cura.LoginScreenActivity;
 import com.cura.R;
 import com.cura.User;
-import com.cura.Connection.CommunicationInterface;
-import com.cura.Connection.ConnectionService;
+import com.cura.connection.CommunicationInterface;
+import com.cura.connection.ConnectionService;
+import com.cura.main.LoginActivity;
 
 public class SysLogActivity extends Activity implements
 		android.view.View.OnClickListener {
@@ -297,7 +297,7 @@ public class SysLogActivity extends Activity implements
 									}
 									Intent closeAllActivities = new Intent(
 											SysLogActivity.this,
-											LoginScreenActivity.class);
+											LoginActivity.class);
 									closeAllActivities
 											.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 									SysLogActivity.this

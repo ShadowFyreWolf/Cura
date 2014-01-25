@@ -17,7 +17,7 @@
     along with Cura.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.cura;
+package com.cura.terminal;
 
 /*
  * Description: This is the Favorite Commands activity which exists in the Terminal module. Here is where the user can add
@@ -39,12 +39,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.cura.Connection.SSHConnection;
+import com.cura.DBHelper;
+import com.cura.R;
+import com.cura.User;
+import com.cura.R.layout;
+import com.cura.R.string;
+import com.cura.connection.SSHConnection;
 
-public class FavoriteCommands extends ListActivity {
+public class FavoriteCommandsDialog extends ListActivity {
 
 	String favoriteCommands[];
-	DbHelper dbHelper;
+	DBHelper dbHelper;
 	SQLiteDatabase db;
 	User userTemp;
 	SSHConnection sshconnection;
@@ -59,7 +64,7 @@ public class FavoriteCommands extends ListActivity {
 		}
 		this.setTitle(R.string.favoritesWelcome + userTemp.getUsername());
 
-		dbHelper = new DbHelper(this);
+		dbHelper = new DBHelper(this);
 		db = dbHelper.getReadableDatabase();
 
 		Cursor c = db.rawQuery("select * from commandTable", null);
@@ -104,7 +109,7 @@ public class FavoriteCommands extends ListActivity {
 				.getMenuInfo();
 		String command = favoriteCommands[info.position];
 
-		dbHelper = new DbHelper(FavoriteCommands.this);
+		dbHelper = new DBHelper(FavoriteCommandsDialog.this);
 		db = dbHelper.getWritableDatabase();
 
 		switch (item.getItemId()) {
@@ -113,7 +118,7 @@ public class FavoriteCommands extends ListActivity {
 
 				String where = "command = ?";
 				String[] whereArgs = { command };
-				db.delete(DbHelper.commandTableName, where, whereArgs);
+				db.delete(DBHelper.commandTableName, where, whereArgs);
 
 				startActivity(getIntent());
 				finish();

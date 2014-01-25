@@ -17,7 +17,7 @@
     along with Cura.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.cura;
+package com.cura.connection;
 
 /*
  * Description: This class is for use in detecting the availability of a connection while using Cura. When the phone loses
@@ -34,7 +34,9 @@ import android.net.ConnectivityManager;
 import android.os.Vibrator;
 import android.widget.Toast;
 
-import com.cura.Connection.ConnectionService;
+import com.cura.R;
+import com.cura.R.string;
+import com.cura.main.LoginActivity;
 
 public class ConnectionBroadcastReceiver extends BroadcastReceiver {
  Vibrator vibrator;
@@ -47,7 +49,7 @@ public class ConnectionBroadcastReceiver extends BroadcastReceiver {
    context.stopService(new Intent(context, ConnectionService.class));
    Toast.makeText(context, R.string.connectionTimeoutMessage, Toast.LENGTH_LONG).show();
    vibrator.vibrate(300);
-   Intent closeAllActivities = new Intent(context.getApplicationContext(), LoginScreenActivity.class);
+   Intent closeAllActivities = new Intent(context.getApplicationContext(), LoginActivity.class);
    closeAllActivities.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
    closeAllActivities.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
    context.getApplicationContext().startActivity(closeAllActivities);

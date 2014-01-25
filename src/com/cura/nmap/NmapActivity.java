@@ -69,9 +69,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cura.LoginScreenActivity;
 import com.cura.R;
 import com.cura.User;
+import com.cura.main.LoginActivity;
 
 public class NmapActivity extends Activity {
 
@@ -808,7 +808,7 @@ public class NmapActivity extends Activity {
 								Log.d("Connection", e.toString());
 							}
 							Intent closeAllActivities = new Intent(NmapActivity.this,
-									LoginScreenActivity.class);
+									LoginActivity.class);
 							// just close everything
 							closeAllActivities.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							NmapActivity.this.startActivity(closeAllActivities);

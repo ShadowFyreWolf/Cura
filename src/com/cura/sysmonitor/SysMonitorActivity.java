@@ -54,11 +54,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.cura.LoginScreenActivity;
 import com.cura.R;
 import com.cura.ScreenCapture;
-import com.cura.Connection.CommunicationInterface;
-import com.cura.Connection.ConnectionService;
+import com.cura.connection.CommunicationInterface;
+import com.cura.connection.ConnectionService;
+import com.cura.main.LoginActivity;
 
 public class SysMonitorActivity extends Activity {
 
@@ -275,7 +275,7 @@ public class SysMonitorActivity extends Activity {
 									}
 									Intent closeAllActivities = new Intent(
 											SysMonitorActivity.this,
-											LoginScreenActivity.class);
+											LoginActivity.class);
 									closeAllActivities
 											.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 									SysMonitorActivity.this
