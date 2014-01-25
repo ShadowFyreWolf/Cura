@@ -105,7 +105,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".about.aboutActivity"
+            android:name=".about.AboutActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
