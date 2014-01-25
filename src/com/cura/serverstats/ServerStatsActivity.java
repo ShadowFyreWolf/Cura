@@ -53,7 +53,7 @@ import android.widget.Toast;
 
 import com.cura.R;
 import com.cura.ScreenCapture;
-import com.cura.User;
+import com.cura.Server;
 import com.cura.connection.CommunicationInterface;
 import com.cura.connection.ConnectionService;
 import com.cura.main.LoginActivity;
@@ -74,7 +74,7 @@ public class ServerStatsActivity extends Activity {
 	private String processIDsingular;
 	private String totalMem, freeMem, usedMem;
 
-	private User userTemp;
+	private Server userTemp;
 
 	private CommunicationInterface conn;
 

@@ -27,19 +27,19 @@ package com.cura;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class User implements Parcelable {
+public class Server implements Parcelable {
  private String username;
  private String domain;
  private int port;
  private String password;
 
- public User(String usern, String dom, int port) {
+ public Server(String usern, String dom, int port) {
   username = usern;
   domain = dom;
   this.port = port;
  }
 
- public User(Parcel in) {
+ public Server(Parcel in) {
   username = in.readString();
   domain = in.readString();
   port = in.readInt();
@@ -87,13 +87,13 @@ public class User implements Parcelable {
   dest.writeInt(port);
  }
 
- public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-  public User createFromParcel(Parcel in) {
-   return new User(in);
+ public static final Parcelable.Creator<Server> CREATOR = new Parcelable.Creator<Server>() {
+  public Server createFromParcel(Parcel in) {
+   return new Server(in);
   }
 
-  public User[] newArray(int size) {
-   return new User[size];
+  public Server[] newArray(int size) {
+   return new Server[size];
   }
  };
 }

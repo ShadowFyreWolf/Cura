@@ -62,7 +62,7 @@ import android.widget.Toast;
 import com.cura.DBHelper;
 import com.cura.R;
 import com.cura.ScreenCapture;
-import com.cura.User;
+import com.cura.Server;
 import com.cura.connection.CommunicationInterface;
 import com.cura.connection.ConnectionService;
 import com.cura.main.LoginActivity;
@@ -78,7 +78,7 @@ public class TerminalActivity extends Activity {
 	Button favoritesButton;
 
 	Terminal terminal;
-	User userTemp;
+	Server userTemp;
 
 	DBHelper dbHelper;
 	SQLiteDatabase db;

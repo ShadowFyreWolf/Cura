@@ -62,8 +62,8 @@ public class AccountsListActivity extends ListActivity {
 	private final int DELETE_USER = 5;
 	DBHelper dbHelper;
 	SQLiteDatabase db;
-	User user[];
-	User userTemp;
+	Server user[];
+	Server userTemp;
 	CustomArrayAdapter array;
 	Intent goToMainActivity;
 	BroadcastReceiver br, databaseBR;
@@ -105,16 +105,16 @@ public class AccountsListActivity extends ListActivity {
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 	}
 
-	public User[] getUser() {
+	public Server[] getUser() {
 		dbHelper = new DBHelper(this);
 		db = dbHelper.getReadableDatabase();
 
 		Cursor c = db.rawQuery("select * from user", null);
 		if (c.getCount() == 0) {
-			user = new User[1];
-			user[0] = new User("username", "domain", 22);
+			user = new Server[1];
+			user[0] = new Server("username", "domain", 22);
 		} else {
-			user = new User[c.getCount()];
+			user = new Server[c.getCount()];
 
 			int counter = 0;
 
@@ -124,7 +124,7 @@ public class AccountsListActivity extends ListActivity {
 						String username = c.getString(c.getColumnIndex("username"));
 						String domain = c.getString(c.getColumnIndex("domain"));
 						int port = Integer.parseInt(c.getString(c.getColumnIndex("port")));
-						user[counter] = new User(username, domain, port);
+						user[counter] = new Server(username, domain, port);
 						counter++;
 					} while (c.moveToNext());
 				}

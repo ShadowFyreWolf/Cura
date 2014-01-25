@@ -39,9 +39,9 @@ import android.widget.ListView;
 
 public class AboutActivity extends ListActivity {
 
-	private final int LICENSE = 5;
-	private final int EMAIL = 7;
-	private final int WEBSITE = 8;
+	private final int LICENSE = 4;
+	private final int EMAIL = 6;
+	private final int WEBSITE = 7;
 	private AboutAdapter aboutAdapter;
 	private Vector<AboutClass> info = new Vector<AboutClass>();
 

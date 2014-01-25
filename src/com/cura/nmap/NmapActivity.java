@@ -70,7 +70,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cura.R;
-import com.cura.User;
+import com.cura.Server;
 import com.cura.main.LoginActivity;
 
 public class NmapActivity extends Activity {
@@ -113,7 +113,7 @@ public class NmapActivity extends Activity {
 	private static final int SCANTYPE_NDIFF = 10;
 	private static final String tag = "Nmap";
 	/* --- User --- */
-	private User user;
+	private Server user;
 	/* --- Menu Items --- */
 	private final int SHARE = 11;
 	private final int HELP = 12;
@@ -124,7 +124,7 @@ public class NmapActivity extends Activity {
 		setContentView(R.layout.nmap);
 		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		Bundle extras = getIntent().getExtras();
-		user = (User) extras.get("user");
+		user = (Server) extras.get("user");
 		mResults = (TextView) findViewById(R.id.results);
 		mArguments = (EditText) findViewById(R.id.Arguments);
 		mTarget = (TextView) findViewById(R.id.Target);

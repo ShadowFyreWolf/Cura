@@ -39,13 +39,13 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.cura.R;
-import com.cura.User;
+import com.cura.Server;
 import com.cura.main.CuraActivity;
 import com.cura.terminal.Terminal;
 
 public class ConnectionService extends Service {
 
- private User user;
+ private Server user;
  private SSHConnection sshconnection;
  private Terminal terminal;
  private Intent i = new Intent();
@@ -91,7 +91,7 @@ public class ConnectionService extends Service {
  @Override
  public int onStartCommand(Intent intent, int flags, int startId) {
   super.onStartCommand(intent, flags, startId);
-  user = (User) intent.getParcelableExtra("user");
+  user = (Server) intent.getParcelableExtra("user");
   String password = intent.getStringExtra("pass");
   user.setPassword(password);
   sshconnection = (SSHConnection) new SSHConnection().execute(user);

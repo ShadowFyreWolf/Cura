@@ -27,11 +27,11 @@ package com.cura.connection;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.cura.User;
+import com.cura.Server;
 import com.cura.terminal.Terminal;
 import com.jcraft.jsch.JSchException;
 
-public class SSHConnection extends AsyncTask<User, String, String> {
+public class SSHConnection extends AsyncTask<Server, String, String> {
 
  private final String connected = "cura.connected";
  private final String notConnected = "cura.not.connected";
@@ -39,7 +39,7 @@ public class SSHConnection extends AsyncTask<User, String, String> {
  Terminal terminal;
 
  @Override
- protected String doInBackground(User... user) {
+ protected String doInBackground(Server... user) {
   try {
    terminal = new Terminal(user[0]);
    result = connected;

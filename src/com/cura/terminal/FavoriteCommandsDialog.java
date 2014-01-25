@@ -41,7 +41,7 @@ import android.widget.Toast;
 
 import com.cura.DBHelper;
 import com.cura.R;
-import com.cura.User;
+import com.cura.Server;
 import com.cura.R.layout;
 import com.cura.R.string;
 import com.cura.connection.SSHConnection;
@@ -51,7 +51,7 @@ public class FavoriteCommandsDialog extends ListActivity {
 	String favoriteCommands[];
 	DBHelper dbHelper;
 	SQLiteDatabase db;
-	User userTemp;
+	Server userTemp;
 	SSHConnection sshconnection;
 
 	public void onCreate(Bundle icicle) {

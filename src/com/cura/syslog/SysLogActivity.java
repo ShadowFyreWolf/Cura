@@ -56,7 +56,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.cura.R;
-import com.cura.User;
+import com.cura.Server;
 import com.cura.connection.CommunicationInterface;
 import com.cura.connection.ConnectionService;
 import com.cura.main.LoginActivity;
@@ -76,7 +76,7 @@ public class SysLogActivity extends Activity implements
 	private static final int WAIT = 100;
 	private String loader_message = "";
 	private ProgressDialog loader;
-	private User user;
+	private Server user;
 	private File syslogDir;
 	private FileWriter target;
 	private NotificationManager mNotificationManager;
@@ -115,7 +115,7 @@ public class SysLogActivity extends Activity implements
 		setContentView(R.layout.syslog);
 		Bundle extras = getIntent().getExtras();
 		if (extras != null)
-			user = (User) extras.get("user");
+			user = (Server) extras.get("user");
 		doBindService();
 		initSpinners();
 		sysLogButton = (Button) findViewById(R.id.sysLogButton);

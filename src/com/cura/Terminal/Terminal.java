@@ -32,7 +32,7 @@ import org.apache.commons.io.IOUtils;
 
 import android.util.Log;
 
-import com.cura.User;
+import com.cura.Server;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -54,7 +54,7 @@ public class Terminal extends Thread {
  private String result = "";
  int i = 0;
 
- public Terminal(final User user) throws JSchException {
+ public Terminal(final Server user) throws JSchException {
   writer = new StringWriter();
   username = user.getUsername();
   host = user.getDomain();

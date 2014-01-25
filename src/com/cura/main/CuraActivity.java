@@ -53,7 +53,7 @@ import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.cura.R;
-import com.cura.User;
+import com.cura.Server;
 import com.cura.R.drawable;
 import com.cura.R.layout;
 import com.cura.R.string;
@@ -74,7 +74,7 @@ public class CuraActivity extends TabActivity implements OnClickListener,
 	TableRow terminalRow, sysMonitorRow, sysLogRow, nessusRow, nmapRow,
 			serverStatsRow;
 
-	User userTemp;
+	Server userTemp;
 	private String uname = "";
 	private String uptime = "";
 	private String location = "";

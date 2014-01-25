@@ -74,7 +74,7 @@ import com.cura.CustomArrayAdapter;
 import com.cura.DBHelper;
 import com.cura.PreferenceScreen;
 import com.cura.R;
-import com.cura.User;
+import com.cura.Server;
 import com.cura.R.drawable;
 import com.cura.R.id;
 import com.cura.R.layout;
@@ -98,8 +98,8 @@ public class LoginActivity extends Activity implements
 	private Intent goToMainActivity;
 	private Button selectServer, newServer;
 	private LinearLayout buttonsLayout;
-	private User user[];
-	private User userTemp;
+	private Server user[];
+	private Server userTemp;
 	private DBHelper dbHelper;
 	private SQLiteDatabase db;
 	int position;
@@ -310,16 +310,16 @@ public class LoginActivity extends Activity implements
 		}
 	}
 
-	public User[] getUser() {
+	public Server[] getUser() {
 		dbHelper = new DBHelper(this);
 		db = dbHelper.getReadableDatabase();
 
 		Cursor c = db.rawQuery("select * from user", null);
 		if (c.getCount() == 0) {
-			user = new User[1];
-			user[0] = new User("username", "domain", 22);
+			user = new Server[1];
+			user[0] = new Server("username", "domain", 22);
 		} else {
-			user = new User[c.getCount()];
+			user = new Server[c.getCount()];
 
 			int counter = 0;
 
@@ -329,7 +329,7 @@ public class LoginActivity extends Activity implements
 						String username = c.getString(c.getColumnIndex("username"));
 						String domain = c.getString(c.getColumnIndex("domain"));
 						int port = Integer.parseInt(c.getString(c.getColumnIndex("port")));
-						user[counter] = new User(username, domain, port);
+						user[counter] = new Server(username, domain, port);
 						counter++;
 					} while (c.moveToNext());
 				}

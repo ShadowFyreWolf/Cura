@@ -36,12 +36,12 @@ import android.widget.TextView;
 @SuppressWarnings("rawtypes")
 public class CustomArrayAdapter extends ArrayAdapter {
  Context context;
- User user[];
+ Server user[];
  DBHelper dbHelper;
  SQLiteDatabase db;
 
  @SuppressWarnings("unchecked")
- public CustomArrayAdapter(Context context, User user[]) {
+ public CustomArrayAdapter(Context context, Server user[]) {
   super(context, R.layout.accountslist, user);
   this.context = context;
   this.user = user;
